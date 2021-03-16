@@ -1,7 +1,9 @@
 package hotelReservation;
 
+import java.text.ParseException;
+
 public class Hotel {
-    private String name;
+    private final String name;
     private double regularWeekdayRates;
     private double regularWeekendRates;
 
@@ -31,7 +33,13 @@ public class Hotel {
         this.regularWeekdayRates = regularWeekdayRates;
     }
 
-    public double getPrice(String... dates) {
-        return dates.length * regularWeekdayRates;
+    public double getPrice(String... dates) throws ParseException {
+        double rate = 0.0;
+        for (String date : dates) {
+            if (DateUtil.isWeekend(date))
+                rate += regularWeekendRates;
+            else rate += regularWeekdayRates;
+        }
+        return rate;
     }
 }
